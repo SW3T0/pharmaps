@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Map as MapIcon, MessageSquare, Menu } from 'lucide-react';
 import { RouteSidebar } from './components/RouteSidebar';
 import { ChatConsole } from './components/ChatConsole';
 import type { ChatMessage } from './components/ChatConsole';
@@ -31,6 +32,7 @@ export default function App() {
   const [startPointKey, setStartPointKey] = useState<string>('coruna');
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [authError, setAuthError] = useState(false);
+  const [mobileTab, setMobileTab] = useState<'sidebar' | 'map' | 'chat'>('map');
 
   // Gestión de sesión de autenticación
   useEffect(() => {
@@ -720,7 +722,7 @@ export default function App() {
   const userName = session.user?.user_metadata?.full_name || session.user?.email || 'Delegado';
 
   return (
-    <AppContainer>
+    <AppContainer mobileTab={mobileTab}>
       {authError && (
         <div className="auth-error-banner">
           <div className="banner-content">
@@ -756,6 +758,32 @@ export default function App() {
         onReorderStops={handleReorderStops}
         onDeleteStop={handleDeleteStop}
       />
+
+      <div className="mobile-bottom-nav">
+        <button 
+          className={`nav-tab ${mobileTab === 'sidebar' ? 'active' : ''}`}
+          onClick={() => setMobileTab('sidebar')}
+        >
+          <Menu size={20} />
+          <span>Rutas</span>
+        </button>
+        <button 
+          className={`nav-tab ${mobileTab === 'map' ? 'active' : ''}`}
+          onClick={() => setMobileTab('map')}
+        >
+          <div className="nav-fab">
+            <MapIcon size={24} />
+          </div>
+          <span>Mapa</span>
+        </button>
+        <button 
+          className={`nav-tab ${mobileTab === 'chat' ? 'active' : ''}`}
+          onClick={() => setMobileTab('chat')}
+        >
+          <MessageSquare size={20} />
+          <span>IA</span>
+        </button>
+      </div>
 
       <style>{`
         .auth-error-banner {

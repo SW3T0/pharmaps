@@ -168,41 +168,138 @@ h1, h2, h3, h4, h5, h6, .brand, .title, .section-title, .logo-text {
   }
 }
 
+/* Mobile Navigation */
+.mobile-bottom-nav {
+  display: none;
+}
+
 @media (max-width: 768px) {
   body, #root {
-    height: auto;
-    overflow-y: auto;
+    height: 100vh;
+    overflow: hidden;
   }
+  
   .app-container {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mobile-bottom-nav {
     display: flex;
-    flex-direction: column;
-    height: auto;
-  }
-  .sidebar-container {
-    width: 100%;
-    max-height: 350px;
-    border-right: none;
-    border-bottom: 1px solid var(--glass-border);
-  }
-  .chat-container {
-    width: 100%;
-    height: 500px;
-    border-right: none;
-    border-bottom: 1px solid var(--glass-border);
-  }
-  .map-and-itinerary-container {
-    width: 100%;
-    height: 800px;
-    display: flex;
-    flex-direction: column;
-  }
-  .itinerary-panel {
-    width: 100%;
-    height: 400px;
-    border-left: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(11, 15, 25, 0.9);
+    backdrop-filter: blur(12px);
     border-top: 1px solid var(--glass-border);
+    z-index: 100;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
   }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 33%;
+    transition: all 0.2s;
+  }
+
+  .nav-tab.active {
+    color: var(--accent-cyan);
+  }
+
+  .nav-fab {
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -24px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: all 0.2s;
+  }
+
+  .nav-tab.active .nav-fab {
+    background: var(--accent-gradient);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+  }
+
+  .sidebar-container,
+  .chat-container,
+  .map-and-itinerary-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 64px;
+    width: 100% !important;
+    height: calc(100vh - 64px) !important;
+    max-height: none !important;
+    border: none !important;
+    transition: opacity 0.3s ease;
+    background: var(--bg-primary);
+    z-index: 10;
+  }
+
+  /* Safe context hide for WebGL map and other tabs */
+  .app-container[data-mobile-tab="sidebar"] .chat-container,
+  .app-container[data-mobile-tab="sidebar"] .map-and-itinerary-container,
+  .app-container[data-mobile-tab="chat"] .sidebar-container,
+  .app-container[data-mobile-tab="chat"] .map-and-itinerary-container,
+  .app-container[data-mobile-tab="map"] .sidebar-container,
+  .app-container[data-mobile-tab="map"] .chat-container {
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .app-container[data-mobile-tab="sidebar"] .sidebar-container,
+  .app-container[data-mobile-tab="chat"] .chat-container,
+  .app-container[data-mobile-tab="map"] .map-and-itinerary-container {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 10;
+  }
+
+  /* Bottom Sheet for Itinerary */
+  .itinerary-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40vh !important;
+    width: 100% !important;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid var(--glass-border);
+    border-bottom: none;
+    z-index: 20;
+    box-shadow: 0 -8px 24px rgba(0,0,0,0.5);
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+  }
+  
   .map-view-wrapper {
-    height: 400px;
+    height: 100% !important;
+    width: 100% !important;
   }
 }

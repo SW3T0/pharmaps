@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { signIn, TEST_USER } from '../services/authService';
+import { signIn } from '../services/authService';
 
 interface LoginScreenProps {
   onLoginSuccess: () => void;
 }
 
 export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
-  const [email, setEmail] = useState(TEST_USER.email);
-  const [password, setPassword] = useState(TEST_USER.password);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -34,10 +34,7 @@ export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
     }
   };
 
-  const handleFillTest = () => {
-    setEmail(TEST_USER.email);
-    setPassword(TEST_USER.password);
-  };
+
 
   return (
     <div className="login-screen">
@@ -145,22 +142,6 @@ export function LoginScreen({ onLoginSuccess }: LoginScreenProps) {
           </button>
         </form>
 
-        <div className="login-divider">
-          <span>MVP</span>
-        </div>
-
-        <button className="login-test-btn" onClick={handleFillTest} type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          Usar credenciales de prueba
-        </button>
-
-        <p className="login-footer">
-          Usuario: <code>{TEST_USER.email}</code><br />
-          Contraseña: <code>{TEST_USER.password}</code>
-        </p>
       </div>
 
       <style>{`

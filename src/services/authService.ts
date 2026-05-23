@@ -1,11 +1,6 @@
 import { supabase } from './supabaseClient';
 import type { Session, User } from '@supabase/supabase-js';
 
-// Credenciales del usuario de prueba para el MVP
-export const TEST_USER = {
-  email: 'delegado@pharmaps.dev',
-  password: 'PharmaMaps2026!'
-};
 
 export interface AuthState {
   session: Session | null;
